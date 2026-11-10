@@ -1,0 +1,23 @@
+# One-click deploy on Render (render.com): New > Blueprint > pick this repo.
+# The persistent disk keeps the SQLite database (accounts, balances, bets).
+services:
+  - type: web
+    name: virtualbet
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/config
+    disk:
+      name: data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: FOOTBALL_API_PROVIDER
+        value: none
+      # To show real fixtures and live scores, set the provider to api-football
+      # or football-data and add the matching key in the Render dashboard.
+      - key: API_FOOTBALL_KEY
+        sync: false
+      - key: FOOTBALL_DATA_KEY
+        sync: false
